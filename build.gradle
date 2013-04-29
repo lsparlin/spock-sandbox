@@ -1,0 +1,19 @@
+apply plugin: 'eclipse'
+apply plugin: 'groovy'
+
+repositories {
+    mavenRepo name: 'plugins-repo', urls: "http://apt.oreillyauto.com:8080/artifactory/main"
+}
+
+dependencies {
+    groovy "org.codehaus.groovy:groovy-all:2.1.2"
+
+    compile('com.google.guava:guava:14.0.1')
+    
+    testCompile 'junit:junit:4.10'
+    testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
+}
+
+war {
+    classpath = classpath - project.configurations.groovy
+}

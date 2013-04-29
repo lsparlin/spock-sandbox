@@ -1,0 +1,14 @@
+build
+.classpath
+.project
+.settings
+bin
+.pmd
+.testclasses
+.deployables
+*~
+*.swp
+.gradle
+*.orig
+artifacts
+*.tmp
