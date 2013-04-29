@@ -1,8 +1,12 @@
-apply plugin: 'oreilly'
 apply plugin: 'eclipse'
 apply plugin: 'war'
-    apply plugin: 'groovy'
+apply plugin: 'groovy'
+apply plugin: com.orbitz.gradle.cobertura.CoberturaPlugin // not aliased
 
+
+repositories {
+    mavenRepo name: 'plugins-repo', urls: "http://apt.oreillyauto.com:8080/artifactory/main"
+}
 
 dependencies {
     groovy "org.codehaus.groovy:groovy-all:2.1.2"
