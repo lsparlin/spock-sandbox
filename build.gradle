@@ -1,10 +1,8 @@
+apply plugin: 'oreilly'
 apply plugin: 'eclipse'
-apply plugin: 'groovy'
 apply plugin: 'war'
+    apply plugin: 'groovy'
 
-repositories {
-    mavenRepo name: 'plugins-repo', urls: "http://apt.oreillyauto.com:8080/artifactory/main"
-}
 
 dependencies {
     groovy "org.codehaus.groovy:groovy-all:2.1.2"
@@ -12,7 +10,10 @@ dependencies {
     compile 'com.google.guava:guava:14.0.1'
     
     testCompile 'junit:junit:4.10'
-    testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
+    groovy "org.spockframework:spock-core:0.7-groovy-2.0"
+    // Need to include Spock's dependencies in the groovy configuration so they get removed from the war
+    groovy "org.hamcrest:hamcrest-core:1.3"
+    groovy "junit:junit-dep:4.10"
 }
 
 war {
