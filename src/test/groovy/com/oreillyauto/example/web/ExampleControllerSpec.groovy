@@ -15,7 +15,7 @@ class ExampleControllerSpec extends Specification {
     
     def "index yeilds list of Examples"() {
         given:
-        dao.getAll() >> examples
+        1 * dao.getAll() >> examples
         
         when:
         def response = controller.index()
@@ -52,7 +52,7 @@ class ExampleControllerSpec extends Specification {
     def "post saves Example and sets id"() {
         given:
         def list = []
-        dao.save(_) >> {
+        saveCalls * dao.save(_) >> {
             it[0].id = 1
             list << it[0]
             return it[0]
@@ -65,10 +65,10 @@ class ExampleControllerSpec extends Specification {
         response == expectedResponse
         
         where:
-        example                     | expectedResponse
-        new Example(name: "Test")   | "1"
-        new Example(id: 2)          | "Invalid"
-        null                        | "Invalid"
+        example                     | expectedResponse  | saveCalls
+        new Example(name: "Test")   | "1"               | 1
+        new Example(id: 2)          | "Invalid"         | 0
+        null                        | "Invalid"         | 0
     }
 
 }
