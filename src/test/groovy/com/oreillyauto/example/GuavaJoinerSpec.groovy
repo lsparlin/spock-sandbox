@@ -7,12 +7,13 @@ import com.google.common.base.Joiner
 class GuavaJoinerSpec extends Specification {
     def joiner = Joiner.on(", ")  // no need for setup() method - fields are re-initialized for each test
     
-    def "joins object's toString on seperator"() {
+    def "join() joins object toStrings on seperator"() {
         expect:
         joinResult == joiner.join(input)
 
         where:
         input                               | joinResult
+        []                                  | ""
         ["one", "two", "three"]             | "one, two, three"
         ["", "four"]                        | ", four"
         [ new Example(name: "First"),  
