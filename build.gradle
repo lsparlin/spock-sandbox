@@ -1,7 +1,6 @@
 apply plugin: 'eclipse'
 apply plugin: 'war'
 apply plugin: 'groovy'
-apply plugin: com.orbitz.gradle.cobertura.CoberturaPlugin // not aliased
 
 
 repositories {
@@ -13,8 +12,13 @@ dependencies {
 
     compile 'com.google.guava:guava:14.0.1'
     
+    // EasyMock and dependencies
+    testCompile('cglib:cglib-nodep:2.1_3')
+    testCompile('org.mockito:mockito-core:1.9.5')
+    
     testCompile 'junit:junit:4.10'
     groovy "org.spockframework:spock-core:0.7-groovy-2.0"
+    
     // Need to include Spock's dependencies in the groovy configuration so they get removed from the war
     groovy "org.hamcrest:hamcrest-core:1.3"
     groovy "junit:junit-dep:4.10"
@@ -22,4 +26,8 @@ dependencies {
 
 war {
     classpath = classpath - project.configurations.groovy
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.0-milestone-3'
 }

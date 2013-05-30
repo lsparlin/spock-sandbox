@@ -30,5 +30,16 @@ public class ExampleController {
         }
         return "Invalid";
     }
+    
+    public String save(Example example) {
+        try {
+            dao.save(example);
+            return "Success";
+        } catch (IllegalStateException e) {
+            return "Illegal State";
+        } catch (NullPointerException e) {
+            return "NPE";
+        }
+    }
 
 }
