@@ -5,7 +5,7 @@ import spock.lang.Specification
 import com.google.common.base.Joiner
 
 class GuavaJoinerSpec extends Specification {
-    def joiner = Joiner.on(", ")  // no need for setup() method - fields are re-initialized for each test
+    def joiner = Joiner.on(", ")
     
     def "join() joins object toStrings on seperator"() {
         expect:

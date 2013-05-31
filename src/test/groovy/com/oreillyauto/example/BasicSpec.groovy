@@ -3,6 +3,7 @@ package com.oreillyauto.example
 import spock.lang.Specification
 
 class BasicSpec extends Specification {
+    HashMap<String, String> map = new HashMap<String, String>()
     
     def "HashMap accepts null key"() {
         setup: // optional - setup: or given: is implied, use by preference
@@ -39,7 +40,6 @@ class BasicSpec extends Specification {
     }
 
     def "HashMap can only have one value per unique key - more concise"() {
-        setup:
         def map = new HashMap<String, String>(['one': 'ONE', 'two': 'TWO'])
         
         when:
@@ -51,6 +51,7 @@ class BasicSpec extends Specification {
         key     | value     || sizeDif
         'three' | 'THREE'   || +1
         'two'   | '2'       || 0
+        'two'   | '2'       || +1
     }
     
 }

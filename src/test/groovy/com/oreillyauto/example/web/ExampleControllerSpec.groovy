@@ -85,6 +85,7 @@ class ExampleControllerSpec extends Specification {
         then:
         1 * dao.save(_ as Example) >> { throw exception }
         response == expectedResp
+        
         where:
         exception                   || expectedResp
         new IllegalStateException() || "Illegal State"

@@ -23,7 +23,7 @@ public class GuavaJoinerTest {
 
         input = new String[] { "", "four" };
         assertEquals(", four", joiner.join(input));
-        
+
         Example example1 = new Example();
         example1.setName("First");
         Example example2 = new Example();
@@ -45,7 +45,7 @@ public class GuavaJoinerTest {
         } catch (NullPointerException e) {
 
         }
-        
+
         input = null;
         try {
             joiner.join(input);
