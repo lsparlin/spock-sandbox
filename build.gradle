@@ -8,6 +8,8 @@ repositories {
 }
 
 dependencies {
+    providedCompile fileTree(dir: appserver6Lib, includes: ['*.jar'], exclude: ['**annotations**'])
+    
     groovy "org.codehaus.groovy:groovy-all:2.1.2"
 
     compile 'com.google.guava:guava:14.0.1'
@@ -18,6 +20,8 @@ dependencies {
     // Need to include Spock's dependencies in the groovy configuration so they get removed from the war
     groovy "org.hamcrest:hamcrest-core:1.3"
     groovy "junit:junit-dep:4.10"
+    
+    testRuntime files(cfgDir)
 }
 
 war {

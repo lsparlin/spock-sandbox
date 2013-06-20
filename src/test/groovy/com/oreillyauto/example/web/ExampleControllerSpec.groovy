@@ -31,50 +31,10 @@ class ExampleControllerSpec extends Specification {
             new Example(name: "Second")] | "Example [name=First], Example [name=Second]"
     }
     
-    def "details yeilds Example details"() {
-        given:
-        dao.findOne(1) >> new Example(name: "Test")
-        dao.findOne(_) >> null
-        
-        when:
-        def response = controller.details(exampleId)
-        
-        then:
-        response == expectedResponse
-        
-        where:
-        exampleId   | expectedResponse
-        1           | "Example [name=Test]"
-        2           | "Not Found"
-        3           | "Not Found"
-    }
-    
-    def "post saves Example and sets id"() {
-        given:
-        def list = []
-        saveCalls * dao.save(_) >> {
-            it[0].id = 1
-            list << it[0]
-            return it[0]
-        }
-        
-        when:
-        def response = controller.post(example)
-        
-        then:
-        response == expectedResponse
-        
-        where:
-        example                     | expectedResponse  | saveCalls
-        new Example(name: "Test")   | "1"               | 1
-        new Example(id: 2)          | "Invalid"         | 0
-        null                        | "Invalid"         | 0
-    }
-    
     def "example/save returns result of dao.save"() {
         Example example = new Example(id: 1)
         
-        when: "typical use case"
+        when: "use case"
         String response = controller.save(example)
         then:
         1 * dao.save(_ as Example) >> new Example()

@@ -1,5 +1,7 @@
 package com.oreillyauto.example
 
+import org.junit.Test
+
 import spock.lang.Specification
 
 /***
@@ -9,11 +11,16 @@ import spock.lang.Specification
  */
 class GroovyLanguageSpec extends Specification {
     
-    def "Property initialization shorthand"() {
-        expect:
-        new Example().name == null
-        and:
-        new Example(name: "Test").name == "Test"
+    def "Equality is a little different in Groovy"() {
+        given:
+        Example example1 = new Example()
+        Example example2 = new Example()
+        
+        expect: "equal-equal operator is overloaded with Java's .equals()"
+        example1 == example2
+        
+        and: ".is() is Groovy's identity checker"
+        ! example1.is(example2)
     }
     
     /*
@@ -21,15 +28,18 @@ class GroovyLanguageSpec extends Specification {
      */
     
     def "Strings in Groovy"() {
+        given:
         def name = 'Groovy'
         def hello = "Hello ${name}"
         
         expect:
         name == "Groovy"
         name.is("Groovy")
+        
         and:
         hello == 'Hello Groovy'
         !hello.is('Hello Groovy')
+        
         and:
         name instanceof String
         hello instanceof GString
@@ -39,87 +49,94 @@ class GroovyLanguageSpec extends Specification {
      * COLLECTIONS
      */
     
-    def "Ranges are new to groovy!"() {
-        def range = 1..3
-        
-        expect:
-        range instanceof List
-        range.size() == 3
-        range.from == 1
-        range.to == 3
-        range.contains(2)
-        range.collect { it * it } == [1, 4, 9]
-    }
-        
-    def "New ways to create and use lists!"() {
-        def list = [1, 2]
-        list << 3 
+    def "New ways to work with lists!"() {
+        // list literal
+        def list = [1, 2, 3, 4]
+        // overloaded left-shift operator
+        list << 5
         
         expect:
         list instanceof ArrayList
-        list[0] == list.first()
-        
-        and: "sublists"
-        list[0..1]  == [1, 2]
-        list[0,2] == [1, 3]
-        list[0,-1] == [1, 3] // first and last
+        list == [1, 2, 3, 4, 5]
+        list.first() == 1
+        list.last() == 5
     }
     
     def "New ways to create and use Maps!"() {
-        def map = [1: 'One', 2: 'Two', 'key': 'val']
+        // map literal
+        def map = [1: 'One', 2: 'Two']
+        // alternitive to .put()
+        map['key'] = 'val'
+        
         
         expect:
-        [:] instanceof HashMap
-        map instanceof HashMap
+        map instanceof HashMap<Object, Object>
+        map.size() == 3
+        
+        and: "different ways of accessing map entries"
         map[1] == 'One'
         map['key'] == 'val'
         map.key == 'val'
     }
     
-    /*
-     * CLOSURES
-     */
-    
-    def "some Collection methods that accept closures"() {
-        def list = ['one', 'two', 'three']
+    def "Ranges are new to groovy!"() {
+        def range = 1..3
         
         expect:
-        list.collect { it.toUpperCase() } == ['ONE', 'TWO', 'THREE']
-        and:
-        list.findAll { it.startsWith 't'} == ['two', 'three']
-        and: 
-        list.each { println it }
+        range == [1, 2, 3]
+        range instanceof List
+        range.size() == 3
+        range.from == 1
+        range.to == 3
+        range.contains(2)
     }
+    
+    /*
+     * OBJECTS
+     */
+    
+    def "Property initialization shorthand"() {
+        given: "can set properties during initialization"
+        Example example1 = new Example([id: 1, name: 'Example'])
+        
+        expect: "can access properties with shorthand"
+        example1.id == 1
+        example1.name == 'Example'
+        
+        and: "square brackets are optional"
+        example1 == new Example(id: 1)
+        
+    }
+    
     
     /*
      * OPERATORS
      */
     
     def "Spread Operator"() {
-        expect:
-        ["one", "three", "four"]*.length() == [3, 5, 4]
-    }
-    
-    def "Subscript operator"() {
-        def string = 'I like Groovy!'
+        given:
+        def list = ['one', 'two', 'three', 'four']
         
         expect:
-        string[0] == 'I'
-        string[0..5] == 'I like'
-        string[-1] == '!'
+        list*.length() == [3, 3, 5, 4]
+        list*.toUpperCase() == ['ONE', 'TWO', 'THREE', 'FOUR']
+        
+        and:
+        [1, 2, 3]*.toString() == ['1', '2', '3']
+        
     }
     
     def "Safe Navigation Operator"() {
         given:
         def example = new Example()
         
-        when:
-        example.name.trim
+        when: "NPE thrown when attempting trim()"
+        example.name.trim()
         then:
         thrown(NullPointerException)
         
         when:
-        def trimName = example.name?.trim
+        def trimName = example.name?.trim()
         then:
         notThrown(NullPointerException)
         trimName == null
@@ -141,6 +158,23 @@ class GroovyLanguageSpec extends Specification {
         and:
         string ==~ /^I was .*/
         ! (string ==~ /I was/)
+    }
+    
+    /*
+     * REVIEW
+     */
+    
+    def "Groovy Language review"() {
+        expect:
+        "Groovy" == 'Groovy'
+        
+        new Example(id: 1).id == 1
+        
+        ['one', 'two', 'three'] instanceof List
+        
+        [1: 'one', 2: 'two', 3: 'three'] instanceof Map
+        
+        1..5 == [1, 2, 3, 4, 5] // Range
     }
     
 }
