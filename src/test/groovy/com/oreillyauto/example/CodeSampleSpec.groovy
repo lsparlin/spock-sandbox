@@ -4,18 +4,18 @@ import spock.lang.Specification
 
 class CodeSampleSpec extends Specification {
     
-    /*def "simple feature"() {
-        setup:
-        // prepare objects for testing
+    def "simple feature"() {
+        setup: // setup object under test
+        def word = 'apple'
         
-        when:
-        // provide stimulus  to code under test
+        when: // provide stimulus 
+        def subWord = word.substring(1)
         
-        then:
-        // express expected response to stimulus
+        then: // express expected response to stimulus
+        subWord == 'pple'
         
-        cleanup:
-        // any cleanup steps (optional)
-    }*/
+        cleanup: // any cleanup steps (optional)
+        def a = "a"
+    }
 
 }
