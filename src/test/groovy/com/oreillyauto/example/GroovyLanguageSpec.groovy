@@ -104,7 +104,7 @@ class GroovyLanguageSpec extends Specification {
         example1.name == 'Example'
         
         and: "square brackets are optional"
-        example1 == new Example(id: 1)
+        example1 == new Example(id: 1, name: 'Example 2')
         
     }
     
@@ -168,7 +168,7 @@ class GroovyLanguageSpec extends Specification {
         expect:
         "Groovy" == 'Groovy'
         
-        new Example(id: 1).id == 1
+        new Example(id: 1, name: 'Example').id == 1
         
         ['one', 'two', 'three'] instanceof List
         

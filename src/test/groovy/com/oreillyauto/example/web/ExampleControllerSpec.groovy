@@ -1,6 +1,7 @@
 package com.oreillyauto.example.web
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
 import com.oreillyauto.example.Example
 import com.oreillyauto.example.data.ExampleDao
@@ -13,6 +14,17 @@ class ExampleControllerSpec extends Specification {
         controller.dao = dao
     }
     
+    def "mocks vs stubs"() {
+	setup:
+	ExampleDao mockDao = Mock()
+	ExampleDao stubDao = Stub()
+	
+	expect:
+	mockDao.getAll() == null
+	stubDao.getAll() == []
+    }
+    
+    @Unroll
     def "index yeilds list of Examples"() {
         given:
         1 * dao.getAll() >> examples
@@ -31,17 +43,21 @@ class ExampleControllerSpec extends Specification {
             new Example(name: "Second")] | "Example [name=First], Example [name=Second]"
     }
     
+    @Unroll
     def "example/save returns result of dao.save"() {
+	given:
         Example example = new Example(id: 1)
         
         when: "use case"
         String response = controller.save(example)
+	
         then:
         1 * dao.save(_ as Example) >> new Example()
         response == "Success"
         
         when: "exception cases"
         response = controller.save(example)
+	
         then:
         1 * dao.save(_ as Example) >> { throw exception }
         response == expectedResp
