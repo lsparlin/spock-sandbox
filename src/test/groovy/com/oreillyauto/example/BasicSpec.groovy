@@ -1,9 +1,8 @@
 package com.oreillyauto.example
 
-import spock.lang.Specification
+import java.util.HashMap;
 
-import com.oreillyauto.teamnet.authentication.exception.NoUsersFoundException;
-import com.oreillyauto.teamnet.authentication.user.TeamNetUser
+import spock.lang.Specification;
 
 
 class BasicSpec extends Specification {
@@ -58,7 +57,7 @@ class BasicSpec extends Specification {
 
     // when, then, where, old()
     def "HashMap can only have one value per unique key - more concise"() {
-        def map = new HashMap<String, String>(['one': 'ONE', 'two': 'TWO'])
+        def map = ['one': 'ONE', 'two': 'TWO']
 
         when:
         map.put(key, value)

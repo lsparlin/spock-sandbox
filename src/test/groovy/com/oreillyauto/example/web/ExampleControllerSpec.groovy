@@ -46,26 +46,26 @@ class ExampleControllerSpec extends Specification {
     @Unroll
     def "example/save returns result of dao.save"() {
 	given:
-        Example example = new Example(id: 1)
-        
-        when: "use case"
-        String response = controller.save(example)
-	
-        then:
-        1 * dao.save(_ as Example) >> new Example()
-        response == "Success"
-        
-        when: "exception cases"
-        response = controller.save(example)
-	
-        then:
-        1 * dao.save(_ as Example) >> { throw exception }
-        response == expectedResp
-        
-        where:
-        exception                   || expectedResp
-        new IllegalStateException() || "Illegal State"
-        new NullPointerException()  || "NPE"
+    Example example = new Example(id: 1, name: "string")
+    
+    when: "use case"
+    String response = controller.save(example)
+
+    then:
+    1 * dao.save(_ as Example) >> new Example()
+    response == "Success"
+    
+    when: "exception cases"
+    response = controller.save(example)
+
+    then:
+    1 * dao.save(_ as Example) >> { throw exception }
+    response == expectedResp
+    
+    where:
+    exception                   || expectedResp
+    new IllegalStateException() || "Illegal State"
+    new NullPointerException()  || "NPE"
     }
 
 }

@@ -2,26 +2,29 @@ package com.oreillyauto.example
 
 import spock.lang.Specification
 
-import com.oreillyauto.example.data.ExampleDao
-import com.oreillyauto.example.web.ExampleController
-
 class FirstSpec extends Specification {
+    def list = new ArrayList<String>()
     
-    /*
-     * WRITE FEATURE METHOD BY HAND AS FIRST EXAMPLE
-     * - Test List.add
-     */
-
-    def "List.add increases list size and new element can be accessed with its index"() {
+    def setup() {
+        println "setting up"
+    }
+    
+    def cleanup() {
+        println "cleaning up"
+    }
+    
+    def testList() {
         setup:
-        List list = new ArrayList<String>()
+        println "setup from method"
+        def word = "word"
         
         when:
-        list.add('hello')
+        println "when"
+        list << (word)
         
         then:
+        println "then"
         list.size() == 1
-        list.get(0) == 'hello'
     }
 
 }
