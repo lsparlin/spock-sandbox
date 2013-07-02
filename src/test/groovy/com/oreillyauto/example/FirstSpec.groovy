@@ -13,7 +13,7 @@ class FirstSpec extends Specification {
         list.add(word)
         
         then:
-        assert list.size() == 1
+        list.size() == 1
     }
 
 }
