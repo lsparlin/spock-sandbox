@@ -1,5 +1,6 @@
 package com.oreillyauto.example.web;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.google.common.base.Joiner;
@@ -10,35 +11,22 @@ public class ExampleController {
 
     // autowired
     private ExampleDao dao;
-    
+
     public String index() {
-        List<Example> list =  dao.getAll();
+        List<Example> list = dao.getAll();
         if (list != null && !list.isEmpty())
             return Joiner.on(", ").join(list);
         return "Empty";
     }
-    
-    public String details(int id) {
-        Example example = dao.findOne(id);
-        return example != null ? example.toString() : "Not Found";
-    }
-    
-    public String post(Example example) {
-        if (example != null && example.getId() == 0) {
-            example = dao.save(example);
-            return example.getId() + "";
-        }
-        return "Invalid";
-    }
-    
+
     public String save(Example example) {
         try {
             dao.save(example);
             return "Success";
         } catch (IllegalStateException e) {
             return "Illegal State";
-        } catch (NullPointerException e) {
-            return "NPE";
+        } catch (SQLException e) {
+            return "SQL Error";
         }
     }
 

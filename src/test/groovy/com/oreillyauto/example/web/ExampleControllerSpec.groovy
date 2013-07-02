@@ -1,5 +1,7 @@
 package com.oreillyauto.example.web
 
+import java.sql.SQLException
+
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -65,7 +67,7 @@ class ExampleControllerSpec extends Specification {
     where:
     exception                   || expectedResp
     new IllegalStateException() || "Illegal State"
-    new NullPointerException()  || "NPE"
+    new SQLException()          || "SQL Error"
     }
 
 }
