@@ -1,8 +1,9 @@
 package com.oreillyauto.example
 
-import java.util.HashMap;
+import spock.lang.Specification
 
-import spock.lang.Specification;
+import com.oreillyauto.teamnet.authentication.exception.NoUsersFoundException
+import com.oreillyauto.teamnet.authentication.user.TeamNetUser
 
 
 class BasicSpec extends Specification {
@@ -11,7 +12,7 @@ class BasicSpec extends Specification {
     // expect
     def "Adding int and String returns String"() {
         expect: 
-        1 + "" instanceof String
+        (1 + "") instanceof String
     }
     
     // when, then, thrown()
